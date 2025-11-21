@@ -20,6 +20,8 @@ public class MessageController {
     private final ObjectProvider<OutputBridge> produceMessageTopic4Dlq;
     private final ObjectProvider<OutputBridge> produceMessageTopic4;
     private final ObjectProvider<OutputBridge> produceMessageTopic5;
+    private final ObjectProvider<OutputBridge> produceMessageTopic6Native;
+    private final ObjectProvider<OutputBridge> produceMessageTopic7Native;
 
     @PostMapping("/send-error")
     void sendMessageError(@RequestBody TestDto message) {
@@ -39,5 +41,15 @@ public class MessageController {
     @PostMapping("/send-demo5")
     void sendMessageDemo5(@RequestBody TestDto5 message) {
         produceMessageTopic5.ifAvailable(sender -> sender.send(message));
+    }
+
+    @PostMapping("/send-native6")
+    void sendMessageNative6(@RequestBody TestDto message) {
+        produceMessageTopic6Native.ifAvailable(sender -> sender.send(message));
+    }
+
+    @PostMapping("/send-native7")
+    void sendMessageNative7(@RequestBody TestDto message) {
+        produceMessageTopic7Native.ifAvailable(sender -> sender.send(message));
     }
 }

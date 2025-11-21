@@ -1,4 +1,15 @@
 spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    bootstrap-servers: localhost:19092
   application:
     name: demo-app
   cloud:
@@ -29,14 +40,29 @@ spring:
           destination: demo-topic4
         produceMessageTopic5-out-0:
           destination: demo-topic5
+        produceMessageTopic6Native-out-0:
+          destination: demo-topic6
+          producer:
+            use-native-encoding: true
+        consumeMessageTopic6Native-in-0:
+          destination: demo-topic6
+          consumer:
+            use-native-decoding: true
+        produceMessageTopic7Native-out-0:
+          destination: demo-topic7
+          producer:
+            use-native-encoding: true
+        consumeMessageTopic7-in-0:
+          destination: demo-topic7
       kafka:
         bindings:
           consumeMessageTopic4Dlq-in-0:
             consumer:
               enable-dlq: true
         binder:
+          enable-observation: true
           autoCreateTopics: true
-          brokers: localhost:19092
+          brokers: ${spring.kafka.bootstrap-servers}
           configuration:
             acks: all
             enable.auto.commit: false
@@ -50,3 +76,16 @@ spring:
             request.timeout.ms: 30000
 server:
   port: 8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    enabled: true
+    sampling:
+      probability: 0.1
+    propagation:
+      type: b3,b3_multi,w3c
+

@@ -55,4 +55,18 @@ public class ListenerConfig {
         };
     }
 
+    @Bean
+    public Consumer<Message<TestDto>> consumeMessageTopic6Native() {
+        return msg -> {
+            log.info("Received message. Message: {}", msg);
+        };
+    }
+
+    @Bean
+    public Consumer<Message<TestDto>> consumeMessageTopic7() {
+        return msg -> {
+            log.info("Received message. Message: {}", msg);
+        };
+    }
+
 }
