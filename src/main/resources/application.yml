@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: demo-app
+  cloud:
+    stream:
+      default:
+        consumer:
+          maxAttempts: 1
+        contentType: application/json
+        group: ${spring.application.name}
+      bindings:
+        produceMessageTopic4Dlq-out-0:
+          destination: demo-topic4
+        consumeMessageTopic4Dlq-in-0:
+          destination: demo-topic4
+        consumeMessageTopic1-in-0:
+          destination: demo-topic1
+        consumeMultiplyTopicsAndProduceMessageTopic2-in-0:
+          destination: demo-topic2,demo-topic3
+        consumeAndProduceMessageTopic2-out-0:
+          destination: demo-topic1
+        produceMessageTopic23-out-0:
+          destination: demo-topic2
+        produceMessageTopic23-out-1:
+          destination: demo-topic3
+        consumeMultiplyTopicsWithDifferentData-in-0:
+          destination: demo-topic4,demo-topic5
+        produceMessageTopic4-out-0:
+          destination: demo-topic4
+        produceMessageTopic5-out-0:
+          destination: demo-topic5
+      kafka:
+        bindings:
+          consumeMessageTopic4Dlq-in-0:
+            consumer:
+              enable-dlq: true
+        binder:
+          autoCreateTopics: true
+          brokers: localhost:19092
+          configuration:
+            acks: all
+            enable.auto.commit: false
+            auto.offset.reset: latest
+            max.poll.interval.ms: 300000
+            max.poll.records: 500
+            fetch.min.bytes: 1
+            fetch.max.wait.ms: 500
+            heartbeat.interval.ms: 3000
+            session.timeout.ms: 10000
+            request.timeout.ms: 30000
+server:
+  port: 8090

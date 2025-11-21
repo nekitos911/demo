@@ -1,0 +1,5 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.example.demo.configuration.EnvironmentConfig
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.example.demo.configuration.EnvironmentConfig

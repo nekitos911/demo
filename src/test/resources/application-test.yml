@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        testChannelOutput-out-0:
+          destination: test-channel
